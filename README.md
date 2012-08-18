@@ -11,7 +11,7 @@ You should be able to just copy the repository and run the files. Note that some
 python django_template_hierarchy_py /var/www/djangoproject/
 ```
 
-This should give you a quick view of the hierarchy of the Django template "includes" and "extends" commands in your project. For example:
+This should give you a quick view of the hierarchy of the Django template "includes" and "extends" commands in your project. The neat thing is that this is recursive so you can quickly see which template files affect others. For example:
 ``` python
 { 'templates/error.html': {'templates/404.html': {}, 'templates/500.html': {}},
   'templates/home.html': {'templates/registration/registration_form.html': {},
