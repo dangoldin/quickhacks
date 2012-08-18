@@ -2,9 +2,13 @@ import os
 import re
 import subprocess
 import pprint
+import sys
 from collections import defaultdict
 
-root = os.path.realpath(os.path.dirname(__file__))
+if len(sys.argv) == 1:
+    root = os.path.realpath(os.path.dirname(__file__))
+else:
+    root = sys.argv[1]
 
 RE_FILE = re.compile(r'[\'\"](.+?)[\"\']')
 
@@ -43,7 +47,7 @@ def child_nodes(pairs):
     children = set()
     for i,j in pairs:
         children.add(i)
-    print 'Children:',children
+    #print 'Children:',children
     return children
 
 def parent_nodes(pairs):
@@ -52,16 +56,16 @@ def parent_nodes(pairs):
     for i,j in pairs:
         if j not in children:
             parents.add(j)
-    print 'Parents:',parents
+    #print 'Parents:',parents
     return parents
 
-extend_pairs = get_file_pairs('find . -name "*.html" -exec grep -Hi "{% extends" {} \;')
+extend_pairs = get_file_pairs('(cd %s; find . -name "*.html" -exec grep -Hi "{%% extends" {} \;)' % root)
 extend_parents = parent_nodes(extend_pairs)
 extend_tree = create_tree_multiple(extend_parents, extend_pairs)
 print 'Extends:', pprint.pformat(extend_tree, indent=1)
 
 # Need to switch the order for these so we see the file that's calling the include first
-include_pairs = [(j,i) for i,j in get_file_pairs('find . -name "*.html" -exec grep -Hi "{% include" {} \;')]
+include_pairs = [(j,i) for i,j in get_file_pairs('(cd %s; find . -name "*.html" -exec grep -Hi "{%% include" {} \;)' % root)]
 #include_pairs = get_file_pairs('find . -name "*.html" -exec grep -Hi "{% include" {} \;')
 include_parents = parent_nodes(include_pairs)
 include_tree = create_tree_multiple(include_parents, include_pairs)
