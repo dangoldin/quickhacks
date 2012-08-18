@@ -1,13 +1,6 @@
 # Synopsis
 This is just a place to contain various hacks/scripts I've come up with to help me deal with some minor issues I've run into.
 
-# Features
-* Data Validation
-* Simplified Data Model Management
-* [Relationships](#relationships)
-* [Storage Engine Extensible](#engines)
-* [Simplified Cache Control](#cache)
-
 # Installation
 You should be able to just copy the repository and run the files. Note that some of them may only work on Unix based systems.
 
